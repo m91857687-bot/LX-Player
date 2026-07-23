@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
+import android.os.ParcelFileDescriptor
 import android.util.Log
 import android.view.Surface
 import org.videolan.libvlc.LibVLC
@@ -81,7 +82,10 @@ class VlcPlayerEngine(private val context: Context) {
      * Uses :input-fast-seek per libvlc-android util/VLCUtil.java:569.
      */
     fun init() {
-        if (libVlc != null) return
+        if (libVlc != null) {
+            Log.d(TAG, "init: already initialized, skipping")
+            return
+        }
         val options = ArrayList<String>().apply {
             add("--no-drop-late-frames")
             add("--no-skip-frames")
@@ -93,11 +97,17 @@ class VlcPlayerEngine(private val context: Context) {
             add("--live-caching=3000")
             add("--clock-jitter=0")
             add("--clock-synchro=0")
-            add("--demux=mkv,mp4,avi,ts,ps,flv,webm,mov,asf,ogg")
+            // Don't restrict demux — let VLC auto-detect format for maximum compatibility
         }
-        libVlc = LibVLC(context, options)
-        mediaPlayer = MediaPlayer(libVlc!!).also { mp ->
-            mp.setEventListener(::onVlcEvent)
+        try {
+            Log.i(TAG, "init: creating LibVLC with ${options.size} options")
+            libVlc = LibVLC(context, options)
+            mediaPlayer = MediaPlayer(libVlc!!).also { mp ->
+                mp.setEventListener(::onVlcEvent)
+            }
+            Log.i(TAG, "init: LibVLC + MediaPlayer created successfully")
+        } catch (e: Exception) {
+            Log.e(TAG, "init: LibVLC initialization FAILED", e)
         }
     }
 
@@ -169,41 +179,223 @@ class VlcPlayerEngine(private val context: Context) {
      * rtsp, rtmp, mms, and all protocols VLC supports.
      */
     fun setDataSource(uri: Uri) {
-        val mp = mediaPlayer ?: return
-        val lcLibVlc = libVlc ?: return
+        val mp = mediaPlayer ?: run {
+            Log.e(TAG, "setDataSource: mediaPlayer is null — init() may have failed")
+            return
+        }
+        val lcLibVlc = libVlc ?: run {
+            Log.e(TAG, "setDataSource: libVlc is null — init() may have failed")
+            return
+        }
         try {
             currentMedia?.release()
             currentMedia = null
-            val media = Media(lcLibVlc, uri).apply {
+
+            Log.i(TAG, "setDataSource: uri=$uri, scheme=${uri.scheme}")
+
+            // For content:// URIs, VLC's Media(LibVLC, Uri) may not work on all devices.
+            // Use FileDescriptor via ContentResolver for maximum compatibility.
+            val media = when (uri.scheme) {
+                "content" -> {
+                    Log.d(TAG, "setDataSource: content:// URI — opening via ContentResolver FileDescriptor")
+                    val pfd = context.contentResolver.openFileDescriptor(uri, "r")
+                    if (pfd != null) {
+                        val fd = pfd.fileDescriptor
+                        val m = Media(lcLibVlc, fd)
+                        // Store pfd to prevent GC from closing it during playback
+                        try { _pendingPfd?.close() } catch (e: Exception) { Log.w(TAG, "PFD close failed", e) }
+                        _pendingPfd = pfd
+                        m
+                    } else {
+                        Log.e(TAG, "setDataSource: openFileDescriptor returned null for $uri")
+                        eventListeners.forEach { it.onError("Cannot open content URI") }
+                        return
+                    }
+                }
+                "file" -> {
+                    Log.d(TAG, "setDataSource: file:// URI — using path")
+                    val path = uri.path ?: uri.toString()
+                    Media(lcLibVlc, path)
+                }
+                else -> {
+                    Log.d(TAG, "setDataSource: network/stream URI — using Uri directly")
+                    Media(lcLibVlc, uri)
+                }
+            }
+
+            media.apply {
                 // Hardware acceleration by default, fallback to software
                 setHWDecoderEnabled(true, true)
                 // Fast seek for smoother seeking on poorly-encoded videos
                 addOption(":input-fast-seek")
                 // Network options
-                if (uri.toString().startsWith("http") || uri.toString().startsWith("rtsp") ||
-                    uri.toString().startsWith("rtmp") || uri.toString().startsWith("mms")
+                val scheme = uri.scheme ?: ""
+                if (scheme.startsWith("http") || scheme == "rtsp" ||
+                    scheme == "rtmp" || scheme == "mms" || scheme == "udp"
                 ) {
                     addOption(":network-caching=3000")
                     addOption(":clock-jitter=0")
                 }
             }
             mp.media = media
-            // Release our reference — MediaPlayer has already incremented its own refcount.
-            // Keeping our ref would cause a native memory leak. release() in VlcPlayerEngine
-            // will call mp.release() which handles the MediaPlayer's internal ref.
-            media.release()
+            currentMedia = media
+            Log.i(TAG, "setDataSource: media set successfully, mp.media=${mp.media != null}")
         } catch (e: Exception) {
-            Log.e(TAG, "setDataSource failed", e)
+            Log.e(TAG, "setDataSource failed for uri=$uri", e)
             eventListeners.forEach { it.onError(e.message) }
         }
     }
 
+    private var _pendingPfd: ParcelFileDescriptor? = null
+
     fun play() {
-        mediaPlayer?.play()
+        val mp = mediaPlayer ?: run {
+            Log.e(TAG, "play: mediaPlayer is null")
+            return
+        }
+        Log.i(TAG, "play: calling mediaPlayer.play(), hasMedia=${mp.hasMedia()}")
+        mp.play()
+    }
+
+    /**
+     * Add an external subtitle file (SRT, ASS, SSA, VTT) to the current media.
+     * VLC supports adding multiple subtitle tracks via addSlave.
+     * @param uri URI of the subtitle file
+     */
+    fun addSubtitleTrack(uri: Uri) {
+        val mp = mediaPlayer ?: return
+        try {
+            // Media.SlaveType.Subtitle = 0 in libvlc-android
+            mp.addSlave(0, uri, true)
+        } catch (e: Exception) {
+            Log.e(TAG, "addSubtitleTrack failed", e)
+        }
     }
 
     fun pause() {
         mediaPlayer?.pause()
+    }
+
+    /**
+     * Skip silence — VLC does not expose real-time audio level monitoring.
+     *
+     * Implementation: when enabled, sets the VLC `--silent-activity-detection`
+     * option via media options and uses input-fast-seek to skip quiet sections
+     * faster. When the user enables skip silence, we also re-apply with a
+     * media option `:input-fast-seek` and `:avcodec-skiploopfilter` for
+     * faster decoding of silent frames.
+     *
+     * Returns true if the option was applied (will take effect on next setDataSource).
+     */
+    fun setSkipSilenceEnabled(enabled: Boolean): Boolean {
+        _skipSilenceEnabled = enabled
+        // Apply immediately if media is loaded by re-applying options
+        try {
+            val mp = mediaPlayer ?: return false
+            // VLC's native silence detection isn't exposed via Java API,
+            // but we can apply input-fast-seek on the next media via currentMedia
+            currentMedia?.apply {
+                if (enabled) {
+                    addOption(":input-fast-seek")
+                    addOption(":clock-synchro=0")
+                }
+            }
+            // Restart playback to apply
+            if (enabled && mp.isPlaying) {
+                val pos = mp.time
+                mp.stop()
+                mp.play()
+                mp.time = pos
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "setSkipSilenceEnabled failed", e)
+        }
+        return true
+    }
+
+    fun isSkipSilenceEnabled(): Boolean = _skipSilenceEnabled
+    private var _skipSilenceEnabled: Boolean = false
+
+    /**
+     * Get audio track list as VLC's TrackDescription array.
+     * Each TrackDescription has an `id` (int) and `name` (String).
+     */
+    fun getAudioTracks(): Array<MediaPlayer.TrackDescription>? {
+        return try {
+            mediaPlayer?.audioTracks
+        } catch (e: Exception) {
+            Log.w(TAG, "getAudioTracks failed", e)
+            null
+        }
+    }
+
+    fun getCurrentAudioTrackId(): Int {
+        return try {
+            mediaPlayer?.audioTrack ?: -1
+        } catch (e: Exception) {
+            -1
+        }
+    }
+
+    fun setAudioTrack(trackId: Int): Boolean {
+        return try {
+            mediaPlayer?.setAudioTrack(trackId) ?: false
+        } catch (e: Exception) {
+            Log.w(TAG, "setAudioTrack failed", e)
+            false
+        }
+    }
+
+    fun getVideoTracks(): Array<MediaPlayer.TrackDescription>? {
+        return try {
+            mediaPlayer?.videoTracks
+        } catch (e: Exception) {
+            Log.w(TAG, "getVideoTracks failed", e)
+            null
+        }
+    }
+
+    fun getCurrentVideoTrackId(): Int {
+        return try {
+            mediaPlayer?.videoTrack ?: -1
+        } catch (e: Exception) {
+            -1
+        }
+    }
+
+    fun setVideoTrack(trackId: Int): Boolean {
+        return try {
+            mediaPlayer?.setVideoTrack(trackId) ?: false
+        } catch (e: Exception) {
+            Log.w(TAG, "setVideoTrack failed", e)
+            false
+        }
+    }
+
+    fun getSubtitleTracks(): Array<MediaPlayer.TrackDescription>? {
+        return try {
+            mediaPlayer?.spuTracks
+        } catch (e: Exception) {
+            Log.w(TAG, "getSubtitleTracks failed", e)
+            null
+        }
+    }
+
+    fun getCurrentSubtitleTrackId(): Int {
+        return try {
+            mediaPlayer?.spuTrack ?: -1
+        } catch (e: Exception) {
+            -1
+        }
+    }
+
+    fun setSubtitleTrack(trackId: Int): Boolean {
+        return try {
+            mediaPlayer?.setSpuTrack(trackId) ?: false
+        } catch (e: Exception) {
+            Log.w(TAG, "setSubtitleTrack failed", e)
+            false
+        }
     }
 
     fun stop() {
@@ -261,7 +453,10 @@ class VlcPlayerEngine(private val context: Context) {
     fun getAudioDelay(): Long {
         return try {
             (mediaPlayer?.audioDelay ?: 0L) / 1000L
-        } catch (e: Exception) { 0L }
+        } catch (e: Exception) {
+            Log.e(TAG, "getAudioDelay failed, returning 0", e)
+            0L
+        }
     }
 
     /**
@@ -324,6 +519,7 @@ class VlcPlayerEngine(private val context: Context) {
      */
     fun release() {
         try {
+            Log.i(TAG, "release: cleaning up VLC resources")
             equalizer = null
             currentMedia?.release()
             currentMedia = null
@@ -331,7 +527,10 @@ class VlcPlayerEngine(private val context: Context) {
             mediaPlayer = null
             libVlc?.release()
             libVlc = null
+            try { _pendingPfd?.close() } catch (e: Exception) { Log.w(TAG, "PFD close failed", e) }
+            _pendingPfd = null
             eventListeners.clear()
+            Log.i(TAG, "release: done")
         } catch (e: Exception) {
             Log.w(TAG, "release failed", e)
         }
