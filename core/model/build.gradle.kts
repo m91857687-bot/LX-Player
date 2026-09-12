@@ -14,6 +14,11 @@ tasks.withType<KotlinCompile> {
     }
 }
 
+java {
+    sourceCompatibility = JavaVersion.toVersion(libs.versions.android.jvm.get().toInt())
+    targetCompatibility = JavaVersion.toVersion(libs.versions.android.jvm.get().toInt())
+}
+
 dependencies {
     implementation(libs.kotlinx.serialization.json)
 }

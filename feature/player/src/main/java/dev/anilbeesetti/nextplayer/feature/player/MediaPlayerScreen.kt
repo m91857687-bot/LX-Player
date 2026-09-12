@@ -257,6 +257,7 @@ fun MediaPlayerScreen(
     }
 
     var overlayView by remember { mutableStateOf<OverlayView?>(null) }
+    var showCastDialog by remember { mutableStateOf(false) }
 
     CompositionLocalProvider(
         LocalControlsVisibilityState provides controlsVisibilityState,
@@ -360,6 +361,7 @@ fun MediaPlayerScreen(
                                         overlayView = OverlayView.PLAYBACK_SPEED
                                     },
                                     onScreenshotClick = onScreenshotClick,
+                                    onCastClick = { showCastDialog = true },
                                     onBackClick = onBackClick,
                                     onMenuClick = {
                                         controlsVisibilityState.hideControls()
@@ -683,6 +685,29 @@ fun MediaPlayerScreen(
                     Text("Cancel")
                 }
             },
+        )
+    }
+
+    if (showCastDialog) {
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { showCastDialog = false },
+            title = { androidx.compose.material3.Text("Cast to TV") },
+            text = {
+                androidx.compose.foundation.layout.Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    androidx.compose.material3.CircularProgressIndicator()
+                    androidx.compose.material3.Text("Searching for nearby devices...")
+                }
+            },
+            confirmButton = {},
+            dismissButton = {
+                androidx.compose.material3.TextButton(onClick = { showCastDialog = false }) {
+                    androidx.compose.material3.Text("Cancel")
+                }
+            }
         )
     }
 }

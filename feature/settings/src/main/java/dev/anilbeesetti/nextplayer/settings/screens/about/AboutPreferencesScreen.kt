@@ -208,23 +208,23 @@ fun AboutApp(
         ) {
             Button(
                 onClick = {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/aamoviesofficial"))
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/MohammedHishamAlSalahi"))
                     ctx.startActivity(intent)
                 },
                 colors = ButtonDefaults.buttonColors(
                     contentColor = androidx.compose.ui.graphics.Color.White,
-                    containerColor = androidx.compose.ui.graphics.Color(0xFF0088CC),
+                    containerColor = androidx.compose.ui.graphics.Color(0xFF333333),
                 ),
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier.weight(1f).height(52.dp),
             ) {
-                Text(text = "Join us on Telegram")
+                Text(text = "GitHub")
             }
             Button(
                 onClick = {
                     val intent = Intent(Intent.ACTION_SENDTO).apply {
-                        data = Uri.parse("mailto:shsjadinfo@gmail.com")
-                        putExtra(Intent.EXTRA_SUBJECT, "SHS Player - Contact")
+                        data = Uri.parse("mailto:a35494359155dhv@gmail.com")
+                        putExtra(Intent.EXTRA_SUBJECT, "X Player - Contact")
                     }
                     ctx.startActivity(intent)
                 },
@@ -238,33 +238,39 @@ fun AboutApp(
                 Text(text = "Contact Us")
             }
         }
+        
+        Button(
+            onClick = {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/MohammedHishamAlSalahi/PrivacyPolicy")) // Replace with actual privacy URL
+                ctx.startActivity(intent)
+            },
+            colors = ButtonDefaults.buttonColors(
+                contentColor = MaterialTheme.colorScheme.onSurface,
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            ),
+            shape = RoundedCornerShape(8.dp),
+            modifier = Modifier.fillMaxWidth().height(52.dp),
+        ) {
+            Text(text = "Privacy Policy")
+        }
 
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(12.dp))
-                .clickable {
-                    val cm = ctx.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as ClipboardManager
-                    cm.setPrimaryClip(ClipData.newPlainText("bKash", "01310211442"))
-                    android.widget.Toast.makeText(ctx, "bKash number copied!", android.widget.Toast.LENGTH_SHORT).show()
-                },
+                .padding(top = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             Text(
-                text = "Support Development via bKash",
+                text = "تصميم وبرمجة",
                 style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-            Text(
-                text = "Personal: 01310211442",
-                style = MaterialTheme.typography.bodyMedium,
-                color = androidx.compose.ui.graphics.Color(0xFFE91E8C),
-            )
-            Text(
-                text = "(Tap to copy)",
-                style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Text(
+                text = "محمد هشام الصلاحي",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
             )
         }
     }

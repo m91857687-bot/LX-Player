@@ -27,5 +27,5 @@ SHS Player is a solo project built with passion. Your donations help cover serve
 
 ---
 
-**Built with 🔥 from Bangladesh · By Sajjad Hussain Shobuj (SHS)**
+**Designed and Coded by Mohammed Hisham Al-Salahi · By Mohammed Hisham Al-Salahi**
 *"In a world of ad-filled players, be the engine."*

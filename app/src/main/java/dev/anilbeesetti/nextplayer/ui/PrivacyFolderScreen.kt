@@ -1,6 +1,7 @@
 package dev.anilbeesetti.nextplayer.ui
 
 import android.content.Context
+import android.widget.Toast
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -672,6 +673,7 @@ fun VaultContentScreen(
     var videoFiles by remember { mutableStateOf(getVaultFiles(context, "videos")) }
     var musicFiles by remember { mutableStateOf(getVaultFiles(context, "music")) }
     var showAddMenu by remember { mutableStateOf(false) }
+    var biometricEnabled by remember { mutableStateOf(getVaultPrefs(context).getBoolean(KEY_BIOMETRIC_ENABLED, false)) }
     var showVideoPicker by remember { mutableStateOf(false) }
     var showMusicPicker by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
@@ -719,6 +721,14 @@ fun VaultContentScreen(
                 }
             },
             actions = {
+                IconButton(onClick = {
+                    val newState = !biometricEnabled
+                    biometricEnabled = newState
+                    getVaultPrefs(context).edit().putBoolean(KEY_BIOMETRIC_ENABLED, newState).apply()
+                    Toast.makeText(context, if (newState) "Biometrics Enabled" else "Biometrics Disabled", Toast.LENGTH_SHORT).show()
+                }) {
+                    Icon(painter = painterResource(if (biometricEnabled) coreUiR.drawable.ic_lock else coreUiR.drawable.ic_lock_open), contentDescription = "Toggle Biometrics")
+                }
                 Box {
                     IconButton(onClick = { showAddMenu = true }) {
                         Icon(painter = painterResource(coreUiR.drawable.ic_add), contentDescription = "Add files")

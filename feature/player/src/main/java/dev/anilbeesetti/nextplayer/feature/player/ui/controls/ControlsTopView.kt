@@ -1,5 +1,7 @@
 package dev.anilbeesetti.nextplayer.feature.player.ui.controls
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Cast
 import androidx.annotation.OptIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +37,7 @@ fun ControlsTopView(
     onSubtitleClick: () -> Unit = {},
     onPlaybackSpeedClick: () -> Unit = {},
     onScreenshotClick: () -> Unit = {},
+    onCastClick: () -> Unit = {},
     onBackClick: () -> Unit,
     onMenuClick: () -> Unit = {},
     onPlaylistClick: () -> Unit = {},
@@ -76,6 +79,12 @@ fun ControlsTopView(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
+            PlayerButton(onClick = onCastClick) {
+                Icon(
+                    imageVector = Icons.Filled.Cast,
+                    contentDescription = "Cast to TV",
+                )
+            }
             PlayerButton(onClick = onPlaylistClick) {
                 Icon(
                     painter = painterResource(R.drawable.ic_playlist),

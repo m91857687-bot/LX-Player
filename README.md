@@ -1,14 +1,14 @@
 <div align="center">
 
-# 🎬 SHS Player
+# 🎬 X Player
 
 ### The Ultimate Open-Source Multimedia Engine for Android
 
 **A privacy-first, VLC-powered, feature-packed video & music player built with Jetpack Compose — forked from Next Player and supercharged with a Glassmorphism UI, Privacy Vault, Wi-Fi file transfer, IPTV live TV, an in-app music library, universal downloader, and a QR share ecosystem.**
 
-`v0.18.0` · Built from Bangladesh 🇧🇩 · by **Sajjad Hussain Shobuj (SHS)**
+`v0.18.0` · Designed and Coded by Mohammed Hisham Al-Salahi · by **Mohammed Hisham Al-Salahi**
 
-[![GitHub release](https://img.shields.io/github/v/release/The-JDdev/SHS-Player?style=for-the-badge&logo=github&color=4285F4)](https://github.com/The-JDdev/SHS-Player/releases)
+[![GitHub release](https://img.shields.io/github/v/release/The-JDdev/X-Player?style=for-the-badge&logo=github&color=4285F4)](https://github.com/The-JDdev/X-Player/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge&logo=open-source-initiative&logoColor=white)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Android%206.0%2B-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://www.android.com)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.3.0-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org)
@@ -21,9 +21,9 @@
 
 | APK | ABI | Best for | Size |
 |:---:|:---:|:---|:---:|
-| [`SHS-Player-v0.18.0-arm64-v8a.apk`](https://github.com/The-JDdev/SHS-Player/releases/download/v0.18.0/SHS-Player-v0.18.0-arm64-v8a.apk) | 64-bit ARM | Pixel, Samsung, **itel vision 1 pro**, modern phones | ~82 MB |
-| [`SHS-Player-v0.18.0-armeabi-v7a.apk`](https://github.com/The-JDdev/SHS-Player/releases/download/v0.18.0/SHS-Player-v0.18.0-armeabi-v7a.apk) | 32-bit ARM | Older / low-end 32-bit phones | ~77 MB |
-| [`SHS-Player-v0.18.0-universal.apk`](https://github.com/The-JDdev/SHS-Player/releases/download/v0.18.0/SHS-Player-v0.18.0-universal.apk) | All ABIs | Any device (largest, foolproof) | ~231 MB |
+| [`X-Player-v0.18.0-arm64-v8a.apk`](https://github.com/The-JDdev/X-Player/releases/download/v0.18.0/X-Player-v0.18.0-arm64-v8a.apk) | 64-bit ARM | Pixel, Samsung, **itel vision 1 pro**, modern phones | ~82 MB |
+| [`X-Player-v0.18.0-armeabi-v7a.apk`](https://github.com/The-JDdev/X-Player/releases/download/v0.18.0/X-Player-v0.18.0-armeabi-v7a.apk) | 32-bit ARM | Older / low-end 32-bit phones | ~77 MB |
+| [`X-Player-v0.18.0-universal.apk`](https://github.com/The-JDdev/X-Player/releases/download/v0.18.0/X-Player-v0.18.0-universal.apk) | All ABIs | Any device (largest, foolproof) | ~231 MB |
 
 > **itel vision 1 pro?** → Use **arm64-v8a** (it's a 64-bit ARM device).
 
@@ -37,7 +37,7 @@
 2. [What's New in v0.18.0 (VLC-Only + Full Media3 Player Interface)](#-whats-new-in-v0180-vlc-only--full-media3-player-interface)
 3. [What's New in v0.17.0 (LibVLC Default + Bug Fix Release)](#-whats-new-in-v0170-libvlc-default--bug-fix-release)
 4. [What's New in v0.16.0 (8-Phase Overhaul)](#-whats-new-in-v0160-8-phase-overhaul)
-5. [Why SHS Player?](#-why-shs-player)
+5. [Why X Player?](#-why-shs-player)
 6. [Feature Comparison](#-feature-comparison)
 7. [Detailed Feature Set](#-detailed-feature-set)
    - [🎥 Video Player](#-video-player)
@@ -74,7 +74,7 @@
 
 ## 📖 Overview
 
-**SHS Player** is a free, open-source, ad-free Android multimedia application that plays local and network video, audio, and live IPTV streams. It is a heavily-extended fork of [Next Player](https://github.com/anilbeesetti/nextplayer) by Anil Kumar Beesetti, re-architected and rebranded by **Sajjad Hussain Shobuj (SHS)** with a focus on three pillars:
+**X Player** is a free, open-source, ad-free Android multimedia application that plays local and network video, audio, and live IPTV streams. It is a heavily-extended fork of [Next Player](https://github.com/anilbeesetti/nextplayer) by Mohammed Hisham Al-Salahi, re-architected and rebranded by **Mohammed Hisham Al-Salahi** with a focus on three pillars:
 
 - **Privacy-first design** — all media processing happens on-device. No tracking, no telemetry, no ads.
 - **Maximum format coverage** — **LibVLC** is the sole playback engine, handling virtually every container, codec, and streaming protocol natively (MKV, MP4, AVI, TS, HLS, DASH, RTSP, RTMP, UDP, MMS, and more).
@@ -82,7 +82,7 @@
 
 The app is written in **100% Kotlin** with **Jetpack Compose** for the entire UI layer, follows **Clean Architecture** across **12 Gradle modules**, uses **Hilt** for dependency injection, **Room** + **DataStore** for persistence, and is localised into **40+ languages**.
 
-> **Latest version:** `0.18.0` (versionCode `60`) — [Download APK](https://github.com/The-JDdev/SHS-Player/releases)
+> **Latest version:** `0.18.0` (versionCode `60`) — [Download APK](https://github.com/The-JDdev/X-Player/releases)
 > **Min Android:** 6.0 (API 23) · **Target:** Android 16 (API 36)
 > **Application ID:** `dev.anilbeesetti.nextplayer` (retained for upstream compatibility)
 
@@ -210,11 +210,11 @@ v0.16.0 was the biggest release in the project's history — a single 8-phase ma
 
 ---
 
-## 🔥 Why SHS Player?
+## 🔥 Why X Player?
 
-Most Android players fall into two camps: feature-rich but bloated/proprietary (MX Player, VLC), or clean but minimal (Next Player, Just Player). SHS Player sits in the rare middle — a clean, modern, Material 3 UI with power-user capabilities that no other open-source player currently bundles together:
+Most Android players fall into two camps: feature-rich but bloated/proprietary (MX Player, VLC), or clean but minimal (Next Player, Just Player). X Player sits in the rare middle — a clean, modern, Material 3 UI with power-user capabilities that no other open-source player currently bundles together:
 
-| Capability | SHS Player | Next Player | VLC | MX Player |
+| Capability | X Player | Next Player | VLC | MX Player |
 |---|:---:|:---:|:---:|:---:|
 | Dual engine (LibVLC primary + Media3 fallback) | ✅ | ❌ | VLC only | Proprietary |
 | Privacy Vault (encrypted on-device) | ✅ | ❌ | ❌ | ❌ |
@@ -234,7 +234,7 @@ Most Android players fall into two camps: feature-rich but bloated/proprietary (
 ## 🧩 Feature Comparison
 
 ### vs. upstream Next Player
-SHS Player inherits Next Player's entire codebase (Media3 player, Material 3 UI, Compose architecture, settings screens, media library) and then layers on top:
+X Player inherits Next Player's entire codebase (Media3 player, Material 3 UI, Compose architecture, settings screens, media library) and then layers on top:
 
 - **New top-level navigation** — a 5-tab bottom bar (Videos · Music · Watch TV · Me · Telegram) instead of a single Videos screen.
 - **A separate Music library** with files / folders / favourites / recent / playlists tabs and a dedicated audio player activity.
@@ -257,7 +257,7 @@ SHS Player inherits Next Player's entire codebase (Media3 player, Material 3 UI,
 
 ### 🎥 Video Player
 
-The video player is the heart of SHS Player and the most feature-dense module in the project.
+The video player is the heart of X Player and the most feature-dense module in the project.
 
 **Engines**
 - **LibVLC 3.6.0-eap5** ⭐ **(PRIMARY DEFAULT)** — all video intents are now routed to `VlcPlayerActivity`. Configured with `:input-fast-seek`, `--no-drop-late-frames`, hardware acceleration with software fallback, and network caching. VLC provides sample-accurate audio delay (microsecond precision), a native 10-band equalizer, and handles virtually every container and codec.
@@ -340,7 +340,7 @@ Introduced as the primary player in v0.17.0. Entirely written in Jetpack Compose
 
 **Intent API (MX Player compatible)**
 - Accepts `android.intent.action.VIEW` with `video/*` and `audio/*`.
-- Supports MX-Player-compatible intent extras via `PlayerApi` (title, position, headers, subtitles, etc.) — so third-party apps that target MX Player will work with SHS Player out of the box.
+- Supports MX-Player-compatible intent extras via `PlayerApi` (title, position, headers, subtitles, etc.) — so third-party apps that target MX Player will work with X Player out of the box.
 
 **Player controls customisation**
 - `CustomizablePlayerControlsRow` — drag-to-reorder scaffold for control buttons (PLAYit-style).
@@ -373,7 +373,7 @@ A full IPTV browser (`WatchTvScreen` + `M3uParser`):
 
 - **M3U parser** handles `http`, `content`, and `file` sources; extracts `tvg-logo`, `group-title`, `tvg-id`, `tvg-name`.
 - Supports `http`, `rtmp`, `rtsp`, and `udp` stream URLs.
-- Sends User-Agent `SHSPlayer/1.4` for streams that require it.
+- Sends User-Agent `XPlayer/1.4` for streams that require it.
 - **Ships with 8+ free iptv-org playlists** baked in: USA, India, UK, Sports, News, Movies, Kids, Music.
 - **Searchable & grouped** by `group-title`.
 - **Category tabs** — Bangladesh · Sports · News · Popular · Free Channels (heuristic resolver maps groups to tabs).
@@ -430,7 +430,7 @@ Introduced in v0.16.0 Phase 4 — a backend that can extract and download any on
 - **`extractStreamInfo(url)`** — fetches the list of available formats (formatId, extension, codec, filesize) for a URL. Works for YouTube, M3U8, direct MP4/MP3, Live TV.
 - **`download(url, formatId, targetFile, onProgress)`** — downloads the chosen format with byte-level progress reporting via `DownloadProgress` flow.
 - **`updateYtDlpIfNeeded(force)`** — auto-update logic. Fetches the latest `yt-dlp_linux` binary from the [yt-dlp GitHub releases API](https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest), replaces the local copy at `context.filesDir/ytdlp/yt-dlp`, and makes it executable. Runs automatically every 24 hours so extractors never break when websites change their HTML/JSON.
-- **`DownloadStreamDialog.kt`** — UI shown when the user taps "Download" in the player. Lists all formats, lets the user pick quality, shows a live progress bar, and saves to `Movies/SHSPlayer/`.
+- **`DownloadStreamDialog.kt`** — UI shown when the user taps "Download" in the player. Lists all formats, lets the user pick quality, shows a live progress bar, and saves to `Movies/XPlayer/`.
 
 > **Note on native lib size:** `youtubedl-android` ships a ~20 MB ffmpeg binary, so it's intentionally declared as an *optional* dependency in `feature/player/build.gradle.kts` (commented out by default). `UniversalDownloader` uses reflection — if the library is absent, it transparently falls back to direct HTTP download. To enable yt-dlp extraction, uncomment the dependency lines in `feature/player/build.gradle.kts`.
 
@@ -508,7 +508,7 @@ Eight top-level categories, each a dedicated Compose screen with a Hilt-injected
 
 ## 🏗 Architecture
 
-SHS Player follows **Clean Architecture** across **12 Gradle modules**, with strict dependency direction:
+X Player follows **Clean Architecture** across **12 Gradle modules**, with strict dependency direction:
 
 ```
                         ┌──────────────┐
@@ -595,7 +595,7 @@ SHS Player follows **Clean Architecture** across **12 Gradle modules**, with str
 ## 📁 Project Structure
 
 ```
-SHS-Player/
+X-Player/
 ├── app/                                    # Application module (single Activity host)
 │   ├── build.gradle.kts
 │   ├── proguard-rules.pro
@@ -672,7 +672,7 @@ SHS-Player/
 - Storage permission (READ_EXTERNAL_STORAGE on API 28 and below; READ_MEDIA_VIDEO + READ_MEDIA_AUDIO on API 33+)
 
 ### Install
-1. Download the correct APK from the [Releases page](https://github.com/The-JDdev/SHS-Player/releases).
+1. Download the correct APK from the [Releases page](https://github.com/The-JDdev/X-Player/releases).
 2. Enable **Install unknown apps** for your browser in Android settings.
 3. Install and launch.
 
@@ -684,8 +684,8 @@ No account, login, or internet connection required.
 
 ```bash
 # Clone the repository
-git clone https://github.com/The-JDdev/SHS-Player.git
-cd SHS-Player
+git clone https://github.com/The-JDdev/X-Player.git
+cd X-Player
 
 # Build a debug APK (per-ABI)
 ./gradlew assembleDebug
@@ -755,7 +755,7 @@ The project has strict module boundaries. Run `./gradlew dependencies --configur
 ## 🛡 Privacy & Security
 
 - **No analytics, no crash reporting to a server, no ads, no tracking.** The crash reporter captures logcat and lets you share it manually — nothing is uploaded automatically.
-- **Privacy Vault** stores files in app-private storage (`context.filesDir`). Other apps (including the gallery) cannot read these files. Uninstalling SHS Player permanently deletes them — **back up before uninstalling**.
+- **Privacy Vault** stores files in app-private storage (`context.filesDir`). Other apps (including the gallery) cannot read these files. Uninstalling X Player permanently deletes them — **back up before uninstalling**.
 - **Wi-Fi file transfer** binds to the local Wi-Fi interface only. The 16-character UUID auth token prevents unauthorized access. No cloud relay.
 - **INTERNET permission** is used only for: IPTV stream fetching, OpenSubtitles API, and yt-dlp binary auto-update from GitHub. None of these transmit user data or device identifiers.
 - **Location permission** is used only to read the Wi-Fi SSID/BSSID for the QR share code. The value is encoded into a QR bitmap shown on-screen; it is never stored or transmitted off the device.
@@ -765,7 +765,7 @@ The project has strict module boundaries. Run `./gradlew dependencies --configur
 
 ## 🌍 Internationalization
 
-SHS Player is localised into **40+ languages** via Android string resources (`res/values-*/strings.xml`). Supported locales include but are not limited to: `bn` (Bengali), `zh-rCN`, `zh-rTW`, `de`, `es`, `fr`, `hi`, `id`, `it`, `ja`, `ko`, `nl`, `pl`, `pt-rBR`, `pt-rPT`, `ro`, `ru`, `sv`, `tr`, `uk`, `vi`, and many more.
+X Player is localised into **40+ languages** via Android string resources (`res/values-*/strings.xml`). Supported locales include but are not limited to: `bn` (Bengali), `zh-rCN`, `zh-rTW`, `de`, `es`, `fr`, `hi`, `id`, `it`, `ja`, `ko`, `nl`, `pl`, `pt-rBR`, `pt-rPT`, `ro`, `ru`, `sv`, `tr`, `uk`, `vi`, and many more.
 
 To add or improve a translation:
 1. Copy `app/src/main/res/values/strings.xml` to `values-<locale>/strings.xml`.
@@ -810,12 +810,12 @@ See [`SECURITY.md`](SECURITY.md). Summary:
 
 ## 📄 License
 
-SHS Player is licensed under the **MIT License** — see [`LICENSE`](LICENSE).
+X Player is licensed under the **MIT License** — see [`LICENSE`](LICENSE).
 
 ```
 MIT License
 
-Copyright (c) 2026 Sajjad Hussain Shobuj (SHS)
+Copyright (c) 2026 Mohammed Hisham Al-Salahi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -836,13 +836,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-SHS Player is a fork of [Next Player](https://github.com/anilbeesetti/nextplayer) by Anil Kumar Beesetti. The upstream project's contributions are gratefully acknowledged.
+X Player is a fork of [Next Player](https://github.com/anilbeesetti/nextplayer) by Mohammed Hisham Al-Salahi. The upstream project's contributions are gratefully acknowledged.
 
 ---
 
 ## 🙏 Credits & Acknowledgements
 
-- **Anil Kumar Beesetti** — original author of [Next Player](https://github.com/anilbeesetti/nextplayer), without which SHS Player would not exist.
+- **Mohammed Hisham Al-Salahi** — original author of [Next Player](https://github.com/anilbeesetti/nextplayer), without which X Player would not exist.
 - **The VideoLAN team** — for LibVLC, the primary engine that handles the full range of codecs and streaming protocols.
 - **The AndroidX Media3 team** — for the ExoPlayer-based fallback playback stack.
 - **The Jetpack Compose team** — for the modern UI toolkit that makes Compose-first apps possible.
@@ -861,7 +861,7 @@ Full list of third-party libraries and their licenses is available in-app under 
 
 ## 💎 Support the Project
 
-SHS Player is built and maintained by a **solo developer working from a smartphone in Bangladesh**. Every contribution — no matter the size — directly funds continued development, server costs, API testing, and new feature research.
+X Player is built and maintained by a **solo developer working from a smartphone in Bangladesh**. Every contribution — no matter the size — directly funds continued development, server costs, API testing, and new feature research.
 
 ### 💳 Donations
 
@@ -879,7 +879,7 @@ The bKash number is also baked into the **About** screen as a tap-to-copy card.
 
 - **Star** the repo on GitHub — it helps others discover the project.
 - **Share** the app with friends and family.
-- **Report bugs** and **request features** via [Issues](https://github.com/The-JDdev/SHS-Player/issues).
+- **Report bugs** and **request features** via [Issues](https://github.com/The-JDdev/X-Player/issues).
 - **Translate** the app into your language.
 - **Contribute code** — see [Contributing](#-contributing).
 
@@ -894,7 +894,7 @@ Join the conversation and connect with the developer and other users:
 | 📱 **Telegram channel** | [t.me/aamoviesofficial](https://t.me/aamoviesofficial) |
 | 📘 **Facebook** | [fb.com/itsshsshobuj](https://fb.com/itsshsshobuj) |
 | 💻 **GitHub** | [github.com/The-JDdev](https://github.com/The-JDdev) |
-| 🐛 **Report a bug** | [Issues](https://github.com/The-JDdev/SHS-Player/issues) |
+| 🐛 **Report a bug** | [Issues](https://github.com/The-JDdev/X-Player/issues) |
 | ✉️ **Email (security)** | `thejddev.official@gmail.com` |
 | ✉️ **Email (general)** | `shsjadinfo@gmail.com` |
 
@@ -902,32 +902,32 @@ Join the conversation and connect with the developer and other users:
 
 ## ❓ FAQ
 
-**Q: Is SHS Player really free?**  
+**Q: Is X Player really free?**  
 A: Yes — free as in beer (no cost, no ads, no in-app purchases) and free as in speech (MIT-licensed open source).
 
 **Q: Why two engines (LibVLC primary + ExoPlayer fallback)?**  
 A: LibVLC handles virtually every container, codec, and streaming protocol — including niche formats, broken files, UDP multicast, and RTSP streams that ExoPlayer struggles with. As of v0.17.0, all video intents go to `VlcPlayerActivity` (LibVLC). ExoPlayer (`PlayerActivity`) remains available as a fallback for edge cases and explicit decoder-priority testing via Settings → Decoder.
 
 **Q: Where are my Privacy Vault files stored?**  
-A: In app-private storage at `context.filesDir/vault/{videos,music}/`. They are invisible to other apps and to the gallery, and they are deleted if you uninstall SHS Player. **Back them up before uninstalling!**
+A: In app-private storage at `context.filesDir/vault/{videos,music}/`. They are invisible to other apps and to the gallery, and they are deleted if you uninstall X Player. **Back them up before uninstalling!**
 
 **Q: Does Wi-Fi File Transfer send my files to the cloud?**  
 A: No. The NanoHTTPD server binds to your local Wi-Fi interface. There is no cloud relay — only devices on the same Wi-Fi can reach it, and the 16-character UUID auth token prevents unauthorised access even on shared networks.
 
 **Q: Why does the app need location permission?**  
-A: On Android, accessing Wi-Fi SSID/BSSID (needed for the TrebleShot-style QR share format) requires `ACCESS_FINE_LOCATION`. SHS Player reads these values locally to populate the QR code; it never stores or transmits your location.
+A: On Android, accessing Wi-Fi SSID/BSSID (needed for the TrebleShot-style QR share format) requires `ACCESS_FINE_LOCATION`. X Player reads these values locally to populate the QR code; it never stores or transmits your location.
 
 **Q: Can I add my own IPTV playlist?**  
 A: Yes — open the **Watch TV** tab, tap the FAB / menu, and paste any `.m3u` URL or pick a local `.m3u` file. Eight free iptv-org playlists are bundled as defaults.
 
 **Q: Why is the application ID `dev.anilbeesetti.nextplayer`?**  
-A: For upstream-compatibility and Play Store continuity. Changing the application ID would make SHS Player a different app and break updates for existing users.
+A: For upstream-compatibility and Play Store continuity. Changing the application ID would make X Player a different app and break updates for existing users.
 
 **Q: How do I report a crash?**  
-A: SHS Player has a built-in crash reporter. When the app crashes, you'll see a Crash screen with the stack trace and `logcat` output. Tap **Share** to send it via your preferred app, or **Copy** to paste it into a GitHub Issue.
+A: X Player has a built-in crash reporter. When the app crashes, you'll see a Crash screen with the stack trace and `logcat` output. Tap **Share** to send it via your preferred app, or **Copy** to paste it into a GitHub Issue.
 
 **Q: Will my settings transfer from upstream Next Player?**  
-A: Not automatically. SHS Player uses the same DataStore file names but with extended preference schemas. Install SHS Player fresh and reconfigure.
+A: Not automatically. X Player uses the same DataStore file names but with extended preference schemas. Install X Player fresh and reconfigure.
 
 **Q: Is there a dark theme?**  
 A: Three, actually: System (follows your device), On (always dark, with optional high-contrast / pure-black OLED mode), and Off (always light). Plus Material You dynamic theming on Android 12+.
@@ -959,11 +959,11 @@ A: Yes. v0.17.0 fixes bug #3 (double milliseconds→microseconds conversion) and
 
 <div align="center">
 
-**Built with 🔥 from Bangladesh 🇧🇩**
+**Designed and Coded by Mohammed Hisham Al-Salahi 🇧🇩**
 
-**By Sajjad Hussain Shobuj (SHS)**
+**By Mohammed Hisham Al-Salahi**
 
-*If SHS Player has empowered your workflow, please consider [supporting the project](#-support-the-project).*
+*If X Player has empowered your workflow, please consider [supporting the project](#-support-the-project).*
 
 [⬆ Back to top](#-shs-player)
 

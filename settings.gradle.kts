@@ -14,7 +14,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "SHSPlayer"
+rootProject.name = "X"
 include(":app")
 include(":core:common")
 include(":core:data")

@@ -16,7 +16,7 @@ android {
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        applicationId = "dev.anilbeesetti.nextplayer"
+        applicationId = "com.aistudio.xplayer.abzx"
         versionCode = 62
         versionName = "0.18.1"
     }
@@ -50,7 +50,7 @@ android {
         getByName("debug") {
             isDebuggable = true
             applicationIdSuffix = ".debug"
-            resValue("string", "app_name", "SHS Player")
+            resValue("string", "app_name", "X")
         }
 
         create("release-with-debug-signing") {
@@ -70,17 +70,7 @@ android {
         }
     }
 
-    splits {
-        abi {
-            //noinspection WrongGradleMethod
-            val isBuildingBundle = gradle.startParameter.taskNames.any { it.lowercase().contains("bundle") }
 
-            isEnable = !isBuildingBundle
-            reset()
-            include("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
-            isUniversalApk = true
-        }
-    }
 
     packaging {
         resources {
